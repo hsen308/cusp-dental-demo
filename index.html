@@ -181,6 +181,9 @@
     background-color: var(--visit-bg, transparent);
     transition: background-color .6s ease;
   }
+  /* a static sibling of the visit section's own dynamic mint — same bleed,
+     fixed color, no JS involved */
+  .section-band.is-mint{ background-color: var(--mint); }
 
   /* ---------- THE VISIT (signature) ---------- */
   .visit-lede{ max-width: 54ch; color: var(--stone); font-size: clamp(17px,1.6vw,19.5px); line-height:1.62; margin-bottom: 34px; }
@@ -584,7 +587,7 @@
   </section>
 
   <!-- ================= PRICES ================= -->
-  <section id="prices">
+  <section id="prices" class="section-band is-mint">
     <div class="head reveal">
       <h2>What it costs</h2>
       <div class="note">published, so you don't have to ask</div>
