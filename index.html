@@ -98,7 +98,13 @@
   }
 
   /* ---------- HERO ---------- */
-  .hero{ padding: clamp(48px,9vh,104px) 0 clamp(26px,4vh,40px); }
+  .hero{
+    display:grid; grid-template-columns: 1.05fr .95fr;
+    gap: clamp(30px, 5vw, 76px); align-items:center;
+    padding: clamp(40px,7vh,88px) 0 clamp(44px,7vh,88px);
+  }
+  .hero-media{ aspect-ratio: 4/5; overflow:hidden; background:#e3e0da; }
+  .hero-media img{ width:100%; height:100%; object-fit:cover; }
   .hero h1{
     font-family:'Instrument Serif', serif; font-weight:400;
     font-size: clamp(37px, 7.6vw, 108px);
@@ -147,13 +153,6 @@
   .status .bulb.shut{ background: var(--stone); animation:none; }
   @keyframes pulse{ to{ box-shadow: 0 0 0 8px rgba(14,90,80,0); } }
   .status .bulb:not(.shut){ animation: pulse 2.4s infinite; }
-
-  .hero-band{
-    margin-top: clamp(26px,4vh,44px);
-    aspect-ratio: 21/8; overflow:hidden; background: #e3e0da;
-  }
-  .hero-band picture{ display:contents; }
-  .hero-band img{ width:100%; height:100%; object-fit:cover; }
 
   /* ---------- SECTION HEAD ---------- */
   .head{
@@ -406,10 +405,30 @@
     .case{ grid-template-columns:1fr; gap:26px; }
     .case p{ max-width:none; }
   }
+  /* phones and small tablets: the image slides behind the text. The veil is
+     heavy enough that ink type clears 7:1 even over the darkest part of a
+     photo, so a reskin can drop in any image without breaking legibility. */
+  @media (max-width: 900px){
+    .hero{
+      grid-template-columns:1fr; position:relative;
+      padding: clamp(52px,9vh,88px) 0 clamp(44px,7vh,76px);
+    }
+    .hero-text{ position:relative; z-index:1; }
+    .hero-media{
+      position:absolute; top:0; bottom:0;
+      left: calc(-1 * var(--pad)); right: calc(-1 * var(--pad));
+      aspect-ratio:auto; z-index:0; background:none;
+    }
+    .hero-media img{ filter: grayscale(.45) sepia(.12) brightness(1.1) contrast(.94); }
+    .hero-media::after{
+      content:''; position:absolute; inset:0;
+      background: linear-gradient(180deg, rgba(242,239,233,.84), rgba(242,239,233,.74) 46%, rgba(242,239,233,.94));
+    }
+  }
+
   @media (max-width: 720px){
     .nav-links{ gap:16px; }
     .nav .city{ display:none; }
-    .hero-band{ aspect-ratio: 4/5; }
     .head{ padding-top: clamp(52px,8vh,80px); }
     .head .note{ text-align:left; max-width:38ch; }
     .clinic-media{ aspect-ratio: 4/5; }
@@ -454,26 +473,25 @@
 
   <!-- ================= HERO ================= -->
   <header class="hero">
-    <span class="eyebrow" id="heroEyebrow">dental clinic · gemmayze, beirut</span>
-    <h1>The dentist you stop <em>dreading</em>.</h1>
-    <p class="hero-sub">An unhurried room, everything explained while it happens, and work built to still look right in ten years — not just on the day you walk out. You'll know what it costs before anything starts, too.</p>
-    <div class="hero-cta">
-      <a href="#book" class="btn">book on whatsapp <span>→</span></a>
-      <a href="#visit" class="btn-quiet">see what a visit actually looks like <span>↓</span></a>
+    <div class="hero-text">
+      <span class="eyebrow" id="heroEyebrow">dental clinic · gemmayze, beirut</span>
+      <h1>The dentist you stop <em>dreading</em>.</h1>
+      <p class="hero-sub">An unhurried room, everything explained while it happens, and work built to still look right in ten years — not just on the day you walk out. You'll know what it costs before anything starts, too.</p>
+      <div class="hero-cta">
+        <a href="#book" class="btn">book on whatsapp <span>→</span></a>
+        <a href="#visit" class="btn-quiet">see what a visit actually looks like <span>↓</span></a>
+      </div>
+      <div class="status">
+        <span class="live"><span class="bulb" id="statusBulb"></span><span id="statusText">checking hours…</span></span>
+        <span id="emergencyLine">two slots kept open every day for pain</span>
+      </div>
     </div>
-    <div class="status">
-      <span class="live"><span class="bulb" id="statusBulb"></span><span id="statusText">checking hours…</span></span>
-      <span id="emergencyLine">two slots kept open every day for pain</span>
+    <!-- beside the text on desktop; behind it, washed back, on phones -->
+    <div class="hero-media">
+      <img class="toned" src="https://images.pexels.com/photos/6812461/pexels-photo-6812461.jpeg?auto=compress&cs=tinysrgb&w=900&h=1125&fit=crop"
+           width="900" height="1125" alt="The treatment room at Cusp, empty and set up before the first appointment of the day" fetchpriority="high">
     </div>
   </header>
-
-  <div class="hero-band">
-    <picture>
-      <source media="(max-width: 720px)" srcset="https://images.pexels.com/photos/6812461/pexels-photo-6812461.jpeg?auto=compress&cs=tinysrgb&w=800&h=1000&fit=crop">
-      <img class="toned" src="https://images.pexels.com/photos/6812453/pexels-photo-6812453.jpeg?auto=compress&cs=tinysrgb&w=1800&h=686&fit=crop"
-           width="1800" height="686" alt="The treatment room at Cusp, empty and set up before the first appointment of the day" fetchpriority="high">
-    </picture>
-  </div>
 
   <!-- ================= THE VISIT ================= -->
   <section id="visit">
