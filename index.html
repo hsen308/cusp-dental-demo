@@ -45,6 +45,7 @@
     --line: rgba(23,19,16,0.14);
     --hairline: rgba(23,19,16,0.08);
     --bg: var(--porcelain);
+    --mint: #E2ECE5;
     --ease: cubic-bezier(.22,.61,.36,1);
     --pad: clamp(20px, 5vw, 64px);
   }
@@ -168,6 +169,17 @@
     font-family:'JetBrains Mono', monospace; font-size:11px;
     letter-spacing:.1em; text-transform:uppercase; color: var(--stone);
     max-width: 30ch; text-align:right;
+  }
+
+  /* full-bleed color band for a section nested one level inside .wrap:
+     bleed out by --pad, then pad back in by the same amount, so children
+     using the .rail full-bleed trick (which assumes --pad === parent
+     padding) still cancel out correctly. */
+  .section-band{
+    margin: 0 calc(-1 * var(--pad));
+    padding: 0 var(--pad);
+    background-color: var(--visit-bg, transparent);
+    transition: background-color .6s ease;
   }
 
   /* ---------- THE VISIT (signature) ---------- */
@@ -494,7 +506,10 @@
   </header>
 
   <!-- ================= THE VISIT ================= -->
-  <section id="visit">
+  <!-- full-bleed mint band: negative margin cancels the wrap's own padding,
+       then re-applies it, so every child's existing --pad math still lines up -->
+  <section id="visit" class="section-band">
+
     <div class="head reveal">
       <h2>Thirty-eight minutes,<br>start to finish.</h2>
       <div class="note">the whole first visit — drag through it →</div>
@@ -729,7 +744,7 @@ const MOMENTS = [
    clinical at the start, warm porcelain by the end. All four keep the ink
    text above 12:1 contrast. */
 const PHASES = ['nervous','seated','known','done'];
-const PHASE_BG = { nervous:'#E4E7EA', seated:'#EAE9E5', known:'#F0EDE6', done:'#F5EFE3' };
+const PHASE_BG = { nervous:'#DCE7E1', seated:'#E2ECE5', known:'#E8EFE7', done:'#EEF1E7' };
 
 /* ============================================================
    APPLY CONFIG
@@ -784,6 +799,7 @@ document.getElementById('priceList').innerHTML = PRICES.map(([name, val]) =>
    swallow the page's vertical scroll on a phone.
    ============================================================ */
 const rail = document.getElementById('rail');
+const visitSection = document.getElementById('visit');
 rail.innerHTML = MOMENTS.map((m, i) => `
   <article class="moment${m.pivot ? ' pivot' : ''}">
     ${m.img ? `<div class="shot"><img class="toned" src="${px(m.img)}" width="760" height="570" loading="lazy" alt="${m.h}, during a first appointment"></div>` : ''}
@@ -812,9 +828,7 @@ function hexLerp(a, b, t){
   return '#' + pa.map((c,i) => Math.round(c + (pb[i]-c)*t).toString(16).padStart(2,'0')).join('');
 }
 
-/* the page only starts breathing with the rail once the section is actually
-   on screen — otherwise the hero loads in the cold "nervous" grey */
-let bgLive = false, ticking = false;
+let ticking = false;
 function paint(){
   ticking = false;
   const max = rail.scrollWidth - rail.clientWidth;
@@ -823,9 +837,9 @@ function paint(){
   const seg = progress * (PHASES.length - 1);
   const i = clamp(Math.floor(seg), 0, PHASES.length - 2);
   const t = seg - i;
-  // drive the custom property, not body.style — the nav's translucent fill is
-  // mixed from --bg and has to travel with it
-  if (bgLive) document.documentElement.style.setProperty('--bg', hexLerp(PHASE_BG[PHASES[i]], PHASE_BG[PHASES[i+1]], t));
+  // scoped to the section itself, not the page — the mint band lives only
+  // where the signature interaction is, the rest of the page stays porcelain
+  visitSection.style.setProperty('--visit-bg', hexLerp(PHASE_BG[PHASES[i]], PHASE_BG[PHASES[i+1]], t));
   phaseWord.textContent = t < 0.5 ? PHASES[i] : PHASES[i+1];
 
   const n = clamp(Math.round(progress * (MOMENTS.length - 1)) + 1, 1, MOMENTS.length);
@@ -860,11 +874,6 @@ if (matchMedia('(pointer:fine)').matches){
   addEventListener('pointerup', () => { down = false; rail.classList.remove('is-dragging'); });
 }
 
-if ('IntersectionObserver' in window){
-  new IntersectionObserver((es, obs) => {
-    if (es[0].isIntersecting){ bgLive = true; paint(); obs.disconnect(); }
-  }, { threshold: 0.25 }).observe(document.getElementById('visit'));
-} else { bgLive = true; }
 paint();
 
 /* ============================================================
