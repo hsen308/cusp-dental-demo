@@ -114,7 +114,7 @@
   .hero h1 em{ font-style:italic; color: var(--pine); }
   .hero-sub{
     margin-top: 22px; max-width: 46ch;
-    font-size: clamp(15.5px, 1.5vw, 18px); line-height:1.6; color: var(--stone);
+    font-size: clamp(17px, 1.7vw, 21px); line-height:1.58; color: var(--stone);
   }
   .hero-cta{ margin-top: 30px; display:flex; flex-wrap:wrap; gap:14px 26px; align-items:center; }
   .btn{
@@ -162,7 +162,7 @@
   }
   .head h2{
     font-family:'Instrument Serif', serif; font-weight:400;
-    font-size: clamp(28px, 4.4vw, 52px); letter-spacing:-.015em; line-height:1.05;
+    font-size: clamp(33px, 5.2vw, 62px); letter-spacing:-.018em; line-height:1.02;
   }
   .head .note{
     font-family:'JetBrains Mono', monospace; font-size:11px;
@@ -171,7 +171,7 @@
   }
 
   /* ---------- THE VISIT (signature) ---------- */
-  .visit-lede{ max-width: 52ch; color: var(--stone); font-size:16px; line-height:1.65; margin-bottom: 30px; }
+  .visit-lede{ max-width: 54ch; color: var(--stone); font-size: clamp(17px,1.6vw,19.5px); line-height:1.62; margin-bottom: 34px; }
 
   /* native horizontal scroll: correct momentum on iOS, keyboard + trackpad for
      free, and it can never swallow the page's vertical scroll */
@@ -190,7 +190,7 @@
   @media (pointer:fine){ .rail{ cursor:grab; } }
 
   .moment{
-    flex:none; width: 320px; scroll-snap-align:start;
+    flex:none; width: 352px; scroll-snap-align:start;
     background: rgba(255,255,255,.5);
     border:1px solid var(--hairline);
     display:flex; flex-direction:column;
@@ -201,13 +201,13 @@
   .moment .shot img{ width:100%; height:100%; object-fit:cover; }
   /* bottom-aligned so cards with a photo and cards without still share a
      baseline across the rail */
-  .moment .body{ padding: 20px 22px 24px; display:flex; flex-direction:column; justify-content:flex-end; gap:9px; flex:1; }
+  .moment .body{ padding: 22px 24px 26px; display:flex; flex-direction:column; justify-content:flex-end; gap:10px; flex:1; }
   .moment .clock{
     font-family:'JetBrains Mono', monospace; font-size:12px; font-weight:500;
     letter-spacing:.08em; color: var(--pine);
   }
-  .moment h3{ font-family:'Instrument Serif', serif; font-weight:400; font-size:25px; line-height:1.15; letter-spacing:-.01em; }
-  .moment p{ font-size:14.5px; line-height:1.6; color: var(--stone); }
+  .moment h3{ font-family:'Instrument Serif', serif; font-weight:400; font-size:29px; line-height:1.12; letter-spacing:-.012em; }
+  .moment p{ font-size:16px; line-height:1.58; color: var(--stone); }
 
   /* the pivot card — the whole argument of the site */
   .moment.pivot{ background: var(--pine); border-color: var(--pine); }
@@ -217,7 +217,7 @@
   .moment.pivot .slip{
     margin-top:6px; padding:12px 14px; background: rgba(242,239,233,.1);
     border:1px dashed rgba(242,239,233,.35);
-    font-family:'JetBrains Mono', monospace; font-size:11px; line-height:1.9;
+    font-family:'JetBrains Mono', monospace; font-size:12.5px; line-height:1.95;
     color: rgba(242,239,233,.9); letter-spacing:.02em;
   }
   .moment.pivot .slip b{ float:right; font-weight:500; }
@@ -296,9 +296,9 @@
   .case-num{ font-family:'JetBrains Mono', monospace; font-size:11.5px; letter-spacing:.1em; color: var(--coral); }
   .case h3{
     font-family:'Instrument Serif', serif; font-weight:400;
-    font-size: clamp(27px,3.6vw,42px); letter-spacing:-.015em; margin:10px 0 14px;
+    font-size: clamp(30px,4.2vw,50px); letter-spacing:-.018em; line-height:1.04; margin:12px 0 16px;
   }
-  .case p{ color: var(--stone); font-size:15.5px; line-height:1.65; max-width:42ch; }
+  .case p{ color: var(--stone); font-size: clamp(16.5px,1.5vw,18.5px); line-height:1.62; max-width:44ch; }
   .facts{
     margin: 24px 0 26px; display:grid; grid-template-columns: repeat(2, minmax(0,1fr));
     gap:1px; background: var(--line); border:1px solid var(--line);
@@ -308,16 +308,16 @@
     font-family:'JetBrains Mono', monospace; font-size:10px;
     letter-spacing:.13em; text-transform:uppercase; color: var(--stone); margin-bottom:6px;
   }
-  .facts dd{ font-family:'Instrument Serif', serif; font-size:23px; }
+  .facts dd{ font-family:'Instrument Serif', serif; font-size:26px; line-height:1.2; }
 
   .index-row{
     display:grid; grid-template-columns: auto 1fr auto; gap:16px 22px; align-items:baseline;
-    padding: 20px 0; border-top:1px solid var(--hairline);
-    font-size:15.5px;
+    padding: 22px 0; border-top:1px solid var(--hairline);
+    font-size:17.5px;
   }
   .index-row .n{ font-family:'JetBrains Mono', monospace; font-size:11.5px; color: var(--coral); }
   .index-row .m{ font-family:'JetBrains Mono', monospace; font-size:11.5px; color: var(--stone); text-align:right; letter-spacing:.05em; }
-  .sample-note{ margin-top:18px; color: var(--stone); font-size:13px; line-height:1.6; }
+  .sample-note{ margin-top:20px; color: var(--stone); font-size:14px; line-height:1.6; }
 
   /* ---------- PRICES ---------- */
   .prices{ max-width: 900px; }
@@ -325,10 +325,10 @@
     display:flex; align-items:baseline; gap:14px;
     padding: 15px 0; border-bottom:1px solid var(--hairline);
   }
-  .price-row .n{ font-size:16.5px; flex:none; }
-  .price-row .lead{ flex:1; border-bottom:1px dotted var(--line); transform: translateY(-4px); }
-  .price-row .v{ font-family:'JetBrains Mono', monospace; font-size:14px; flex:none; letter-spacing:.02em; }
-  .price-foot{ margin-top:26px; color: var(--stone); font-size:15px; line-height:1.7; max-width:56ch; }
+  .price-row .n{ font-size:18.5px; flex:none; }
+  .price-row .lead{ flex:1; border-bottom:1px dotted var(--line); transform: translateY(-5px); }
+  .price-row .v{ font-family:'JetBrains Mono', monospace; font-size:15.5px; flex:none; letter-spacing:.02em; }
+  .price-foot{ margin-top:28px; color: var(--stone); font-size:17px; line-height:1.68; max-width:56ch; }
   .price-foot b{ color: var(--ink); font-weight:500; }
 
   /* ---------- CLINIC ---------- */
@@ -340,13 +340,13 @@
   .clinic-media picture{ display:contents; }
   .clinic-media img{ width:100%; height:100%; object-fit:cover; }
   .clinic-text p{
-    font-family:'Instrument Serif', serif; font-size: clamp(19px,2.2vw,27px);
-    line-height:1.45; max-width:34ch;
+    font-family:'Instrument Serif', serif; font-size: clamp(21px,2.5vw,31px);
+    line-height:1.42; max-width:34ch;
   }
   .clinic-text p + p{ margin-top:18px; }
   .clinic-text .eyebrow{ display:block; margin-bottom:16px; }
   .stats{ display:flex; flex-wrap:wrap; gap: clamp(24px,4vw,48px); margin-top:40px; }
-  .stat .n{ font-family:'Instrument Serif', serif; font-size:34px; line-height:1; color: var(--pine); }
+  .stat .n{ font-family:'Instrument Serif', serif; font-size:40px; line-height:1; color: var(--pine); }
   .stat .l{ margin-top:8px; max-width:17ch; }
 
   /* ---------- BOOKING ---------- */
@@ -354,9 +354,9 @@
   .booking-head{ max-width:46ch; margin-bottom: clamp(32px,4.5vh,48px); }
   .booking-head h2{
     font-family:'Instrument Serif', serif; font-weight:400;
-    font-size: clamp(28px,4.4vw,52px); letter-spacing:-.02em; margin-top:12px; line-height:1.05;
+    font-size: clamp(33px,5.2vw,62px); letter-spacing:-.02em; margin-top:12px; line-height:1.02;
   }
-  .booking-head p{ margin-top:16px; color: var(--stone); font-size:15.5px; line-height:1.65; }
+  .booking-head p{ margin-top:18px; color: var(--stone); font-size: clamp(16.5px,1.5vw,18.5px); line-height:1.62; }
   form.book{ display:grid; grid-template-columns:1fr 1fr; gap: 26px 34px; max-width: 860px; }
   .field{ display:flex; flex-direction:column; gap:8px; }
   .field.full{ grid-column: 1 / -1; }
@@ -366,8 +366,8 @@
   }
   .field input, .field select, .field textarea{
     background:transparent; border:none; border-bottom:1px solid var(--line);
-    color: var(--ink); font-family:'Inter Tight', sans-serif; font-size:16.5px;
-    padding: 11px 2px; min-height:46px; transition: border-color .3s ease;
+    color: var(--ink); font-family:'Inter Tight', sans-serif; font-size:17.5px;
+    padding: 12px 2px; min-height:48px; transition: border-color .3s ease;
   }
   .field input::placeholder, .field textarea::placeholder{ color: rgba(23,19,16,.32); }
   .field input:focus, .field select:focus, .field textarea:focus{ border-color: var(--pine); outline:none; }
@@ -434,7 +434,7 @@
     .clinic-media{ aspect-ratio: 4/5; }
     form.book{ grid-template-columns:1fr; gap:24px; }
     .facts{ grid-template-columns:1fr 1fr; }
-    .moment{ width: 78vw; max-width: 330px; }
+    .moment{ width: 80vw; max-width: 340px; }
     footer{ justify-content:flex-start; }
   }
   @media (max-width: 520px){
@@ -446,7 +446,7 @@
     .price-row .v{ color: var(--pine); }
     .index-row{ grid-template-columns: auto 1fr; }
     .index-row .m{ grid-column:2; text-align:left; }
-    .stat .n{ font-size:29px; }
+    .stat .n{ font-size:33px; }
   }
 
   @media (prefers-reduced-motion: reduce){
@@ -701,7 +701,8 @@ const MOMENTS = [
     p:'No sliding glass window, no clipboard of forms. Someone tells you how long the wait is, and it is the real number.',
     img: 305567 },
   { t:'00:03', h:'You sit down',
-    p:'Chair upright, nothing in your mouth yet. We ask what has been bothering you and how long it has been going on.' },
+    p:'Chair upright, nothing in your mouth yet. We ask what has been bothering you and how long it has been going on.',
+    img: 6812479 },
   { t:'00:06', h:'We look',
     p:'Mirror and light first, about two minutes. Then an X-ray only if there is a reason for one — and we tell you the reason.',
     img: 6627353 },
@@ -711,12 +712,14 @@ const MOMENTS = [
   { t:'00:11', h:'The number', pivot:true,
     p:'Before anything starts: what needs doing, what can wait, and what each part costs. Written down and handed to you.' },
   { t:'00:14', h:'You decide',
-    p:'Including deciding not to. Nobody sells you a crown from the chair. "I want to think about it" is a normal answer here.' },
+    p:'Including deciding not to. Nobody sells you a crown from the chair. "I want to think about it" is a normal answer here.',
+    img: 6627325 },
   { t:'00:20', h:'The part you were dreading',
     p:'The anaesthetic goes in slowly — that is most of the reason it hurts when it hurts. You raise a hand, we stop. Every time.',
     img: 3952017 },
   { t:'00:36', h:'Done',
-    p:'We tell you what we did, what tonight will feel like, and what to do if it does not settle. Our number, not a hotline.' },
+    p:'We tell you what we did, what tonight will feel like, and what to do if it does not settle. Our number, not a hotline.',
+    img: 5355903 },
   { t:'00:38', h:'You leave with the plan',
     p:'One page: what is finished, what is next, what it costs, when to come back. Same numbers you were quoted at 00:11.',
     img: 4270379 },
