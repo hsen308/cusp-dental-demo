@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case 01 — Cusp, Beirut</title>
+<meta name="description" content="One dental case told visit by visit: a fractured front tooth, four visits, eleven weeks, $780 — quoted at the first appointment.">
+<meta name="theme-color" content="#F2EFE9">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23F2EFE9'/%3E%3Cpath d='M10 22c-1.5-3-2-6.5-1.5-9C9 10.5 11 9 13 9.6c1.5.5 2 1 3 1s1.5-.5 3-1c2-.6 4 .9 4.5 3.4.5 2.5 0 6-1.5 9-.9 1.8-2.2 1.2-2.7-.6-.4-1.5-.8-3.4-2.3-3.4s-1.9 1.9-2.3 3.4c-.5 1.8-1.8 2.4-2.7.6z' fill='none' stroke='%230E5A50' stroke-width='1.6'/%3E%3C/svg%3E">
+
+<!-- RESKIN: see the notes at the top of index.html. The case below is written
+     for tone. Replace with one real case from the clinic, and swap the sample
+     photography for the clinic's own consented images. -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://images.pexels.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --porcelain:#F2EFE9; --ink:#171310; --pine:#0E5A50; --coral:#C9563F;
+    --stone:#6E6A64; --line:rgba(23,19,16,.14); --hairline:rgba(23,19,16,.08);
+    --ease:cubic-bezier(.22,.61,.36,1); --pad:clamp(20px,5vw,64px);
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+  body{
+    background:var(--porcelain); color:var(--ink);
+    font-family:'Inter Tight',system-ui,sans-serif; overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{ color:inherit; text-decoration:none; }
+  img{ display:block; max-width:100%; }
+  ::selection{ background:var(--pine); color:var(--porcelain); }
+  :focus-visible{ outline:2px solid var(--pine); outline-offset:3px; }
+
+  .wrap{ max-width:1360px; margin:0 auto; padding:0 var(--pad); }
+  .toned{ filter:grayscale(.3) sepia(.1) contrast(1.05); }
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace; font-size:11px;
+    letter-spacing:.16em; text-transform:uppercase; color:var(--stone);
+  }
+
+  .nav{
+    position:sticky; top:0; z-index:60;
+    display:flex; justify-content:space-between; align-items:center; gap:16px;
+    padding:18px var(--pad);
+    background:color-mix(in srgb, var(--porcelain) 88%, transparent);
+    backdrop-filter:blur(10px); border-bottom:1px solid var(--hairline);
+  }
+  .nav .word{ font-family:'Instrument Serif',serif; font-size:27px; }
+  .nav .word b{ color:var(--pine); font-weight:400; }
+  .back{
+    font-family:'JetBrains Mono',monospace; font-size:11px;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--stone);
+    min-height:44px; display:inline-flex; align-items:center; gap:8px;
+  }
+  .back:hover{ color:var(--pine); }
+
+  /* ---------- HEAD ---------- */
+  .lede{ padding: clamp(44px,8vh,96px) 0 clamp(24px,4vh,40px); }
+  .lede h1{
+    font-family:'Instrument Serif',serif; font-weight:400;
+    font-size:clamp(34px,6.4vw,88px); line-height:1.02; letter-spacing:-.02em;
+    max-width:17ch; margin-top:16px;
+  }
+  .lede h1 em{ font-style:italic; color:var(--pine); }
+  .lede p{ margin-top:20px; max-width:50ch; color:var(--stone); font-size:clamp(15.5px,1.5vw,18px); line-height:1.65; }
+
+  .facts{
+    display:grid; grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:1px; background:var(--line); border:1px solid var(--line);
+    margin: clamp(28px,4vh,44px) 0;
+  }
+  .facts div{ background:var(--porcelain); padding:16px 18px; }
+  .facts dt{
+    font-family:'JetBrains Mono',monospace; font-size:10px;
+    letter-spacing:.13em; text-transform:uppercase; color:var(--stone); margin-bottom:7px;
+  }
+  .facts dd{ font-family:'Instrument Serif',serif; font-size:clamp(20px,2.2vw,26px); line-height:1.2; }
+
+  .band{ aspect-ratio:21/8; overflow:hidden; background:#e3e0da; }
+  .band picture{ display:contents; }
+  .band img{ width:100%; height:100%; object-fit:cover; }
+
+  /* ---------- VISITS ---------- */
+  .visit{
+    display:grid; grid-template-columns:1fr 1fr;
+    gap:clamp(26px,4.5vw,68px); align-items:center;
+    padding: clamp(56px,9vh,104px) 0; border-top:1px solid var(--line);
+  }
+  .visit:nth-child(even) .visit-media, .visit:nth-child(even) .ba{ order:2; }
+  .visit-media{ aspect-ratio:4/5; overflow:hidden; background:#e3e0da; }
+  .visit-media img{ width:100%; height:100%; object-fit:cover; transition:transform 1.1s var(--ease); }
+  .visit:hover .visit-media img{ transform:scale(1.03); }
+  .visit-num{ font-family:'JetBrains Mono',monospace; font-size:11.5px; letter-spacing:.1em; color:var(--coral); }
+  .visit h2{
+    font-family:'Instrument Serif',serif; font-weight:400;
+    font-size:clamp(27px,3.8vw,46px); letter-spacing:-.015em; line-height:1.08; margin:12px 0 16px;
+  }
+  .visit p{ color:var(--stone); font-size:16px; line-height:1.7; max-width:44ch; }
+  .visit p + p{ margin-top:14px; }
+  .visit .line{
+    margin-top:22px; padding-top:16px; border-top:1px solid var(--hairline);
+    font-family:'JetBrains Mono',monospace; font-size:11.5px;
+    letter-spacing:.06em; color:var(--ink);
+  }
+  .visit .line span{ color:var(--stone); }
+
+  /* ---------- BEFORE / AFTER ---------- */
+  .result{ padding: clamp(56px,9vh,104px) 0; border-top:1px solid var(--line); }
+  .result-grid{ display:grid; grid-template-columns:1fr 1fr; gap:clamp(26px,4.5vw,68px); align-items:center; }
+  .ba{ position:relative; aspect-ratio:3/2; overflow:hidden; background:#e3e0da; --x:50%; }
+  .shot{ position:relative; aspect-ratio:4/5; overflow:hidden; background:#e3e0da; }
+  .shot img{ width:100%; height:100%; object-fit:cover; }
+  .ba img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+  .ba .after{ clip-path:inset(0 0 0 var(--x)); }
+  .ba-line{ position:absolute; top:0; bottom:0; left:var(--x); width:2px; background:var(--porcelain); pointer-events:none; box-shadow:0 0 14px rgba(23,19,16,.35); }
+  .ba-grip{
+    position:absolute; top:50%; left:var(--x); transform:translate(-50%,-50%);
+    width:48px; height:48px; border-radius:50%; background:var(--porcelain);
+    display:grid; place-items:center; pointer-events:none;
+    font-family:'JetBrains Mono',monospace; font-size:13px; box-shadow:0 4px 18px rgba(23,19,16,.28);
+  }
+  .ba-range{
+    position:absolute; inset:0; width:100%; height:100%; margin:0; opacity:0;
+    cursor:ew-resize; -webkit-appearance:none; appearance:none; background:transparent;
+    touch-action:pan-y;
+  }
+  .ba-range::-webkit-slider-thumb{ -webkit-appearance:none; width:48px; height:100%; }
+  .ba-range::-moz-range-thumb{ width:48px; height:100%; border:none; opacity:0; }
+  .ba-tag, .ba-badge{
+    position:absolute; z-index:2; font-family:'JetBrains Mono',monospace; font-size:10px;
+    letter-spacing:.14em; text-transform:uppercase; padding:6px 10px; pointer-events:none;
+    color:var(--porcelain);
+  }
+  .ba-tag{ bottom:12px; background:rgba(23,19,16,.62); }
+  .ba-tag.l{ left:12px; } .ba-tag.r{ right:12px; }
+  .ba-badge{ top:12px; left:12px; background:var(--coral); }
+
+  .result h2{ font-family:'Instrument Serif',serif; font-weight:400; font-size:clamp(28px,4vw,48px); letter-spacing:-.02em; line-height:1.06; }
+  .result p{ margin-top:18px; color:var(--stone); font-size:16px; line-height:1.7; max-width:44ch; }
+  .total{
+    margin-top:26px; display:flex; align-items:baseline; gap:14px; flex-wrap:wrap;
+    padding-top:18px; border-top:1px solid var(--line);
+  }
+  .total .n{ font-family:'Instrument Serif',serif; font-size:clamp(34px,5vw,54px); color:var(--pine); line-height:1; }
+  .total .l{ font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.11em; text-transform:uppercase; color:var(--stone); max-width:24ch; }
+
+  .cta{ padding: clamp(52px,8vh,96px) 0; border-top:1px solid var(--line); text-align:center; }
+  .cta h2{ font-family:'Instrument Serif',serif; font-weight:400; font-size:clamp(27px,4vw,46px); letter-spacing:-.02em; line-height:1.1; max-width:20ch; margin:0 auto; }
+  .btn{
+    margin-top:28px; display:inline-flex; align-items:center; gap:10px;
+    min-height:52px; padding:15px 28px; background:var(--pine); color:var(--porcelain);
+    font-family:'JetBrains Mono',monospace; font-size:11.5px;
+    letter-spacing:.1em; text-transform:uppercase;
+    transition:transform .3s var(--ease), background .3s ease;
+  }
+  .btn:hover{ transform:translateY(-2px); background:#0b463e; }
+
+  footer{
+    padding:34px 0 40px; border-top:1px solid var(--line);
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;
+    font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:.06em; color:var(--stone);
+  }
+  footer a{ border-bottom:1px solid var(--line); padding-bottom:2px; }
+  footer a:hover{ color:var(--pine); border-color:var(--pine); }
+
+  .reveal{ opacity:0; transform:translateY(22px); transition:opacity .85s var(--ease), transform .85s var(--ease); }
+  .reveal.in{ opacity:1; transform:none; }
+
+  @media (max-width:900px){
+    .visit{ grid-template-columns:1fr; gap:24px; }
+    .visit:nth-child(even) .visit-media, .visit:nth-child(even) .ba{ order:0; }
+    .visit p{ max-width:none; }
+    .result-grid{ grid-template-columns:1fr; gap:26px; }
+    .result p{ max-width:none; }
+  }
+  @media (max-width:720px){
+    .facts{ grid-template-columns:1fr 1fr; }
+    .band{ aspect-ratio:4/5; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    *, *::before, *::after{ transition-duration:.001ms !important; animation-duration:.001ms !important; }
+    .reveal{ opacity:1; transform:none; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="word">cusp<b>.</b></a>
+  <a href="index.html" class="back"><span>←</span> all cases</a>
+</nav>
+
+<div class="wrap">
+
+  <header class="lede">
+    <span class="eyebrow">case 01 · anterior crowns</span>
+    <h1>A front tooth that broke on a <em>date pit</em>.</h1>
+    <p>She came in on a Tuesday holding a piece of her own tooth in a tissue. Four visits and eleven weeks later she stopped covering her mouth in photographs. Here is every visit, and what each one cost.</p>
+  </header>
+
+  <dl class="facts">
+    <div><dt>presented with</dt><dd>Fractured upper central incisor</dd></div>
+    <div><dt>treatment</dt><dd>Root canal, post, two zirconia crowns</dd></div>
+    <div><dt>visits</dt><dd>4 over 11 weeks</dd></div>
+    <div><dt>quoted / paid</dt><dd>$780 / $780</dd></div>
+  </dl>
+
+  <div class="band">
+    <picture>
+      <source media="(max-width: 720px)" srcset="https://images.pexels.com/photos/4269265/pexels-photo-4269265.jpeg?auto=compress&cs=tinysrgb&w=800&h=1000&fit=crop">
+      <img class="toned" src="https://images.pexels.com/photos/6627838/pexels-photo-6627838.jpeg?auto=compress&cs=tinysrgb&w=1800&h=686&fit=crop"
+           width="1800" height="686" alt="Instruments laid out at the start of the appointment" fetchpriority="high">
+    </picture>
+  </div>
+
+  <!-- ================= VISITS ================= -->
+  <section class="visit reveal">
+    <div class="ba" id="ba">
+      <img class="before" src="https://images.pexels.com/photos/12474261/pexels-photo-12474261.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop"
+           width="1200" height="800" alt="Close-up photograph of the teeth as they look in the mirror" loading="lazy">
+      <img class="after" src="https://images.pexels.com/photos/6502033/pexels-photo-6502033.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop"
+           width="1200" height="800" alt="The panoramic X-ray of the same jaw, showing what sits under the gum" loading="lazy">
+      <div class="ba-line"></div>
+      <div class="ba-grip">↔</div>
+      <span class="ba-badge">demo images</span>
+      <span class="ba-tag l">what you see</span>
+      <span class="ba-tag r">what we see</span>
+      <input type="range" class="ba-range" id="baRange" min="0" max="100" value="50" step="1" aria-label="Drag to compare the photograph with the X-ray">
+    </div>
+    <div>
+      <div class="visit-num">visit 01 · 40 minutes</div>
+      <h2>Finding out how bad it actually was</h2>
+      <p>The visible break was the small part. The X-ray showed the fracture running under the gum and the nerve already exposed — which is why cold water had been making her jump for a week.</p>
+      <p>We went through it on the screen with her: what had to happen, what it would cost, and the one part that could wait a year. She left with it written down and did not book anything that day. That is fine.</p>
+      <div class="line">exam, X-ray and written plan <span>— $25</span></div>
+    </div>
+  </section>
+
+  <section class="visit reveal">
+    <div class="visit-media">
+      <img class="toned" src="https://images.pexels.com/photos/15225509/pexels-photo-15225509.jpeg?auto=compress&cs=tinysrgb&w=800&h=1000&fit=crop"
+           width="800" height="1000" alt="Treatment under the clinic light during the second visit" loading="lazy">
+    </div>
+    <div>
+      <div class="visit-num">visit 02 · 9 days later · 75 minutes</div>
+      <h2>The root canal she had been dreading</h2>
+      <p>Anaesthetic goes in slowly, over about ninety seconds. Almost everything people remember as "the injection hurting" is it being pushed in fast. She raised her hand twice. We stopped twice.</p>
+      <p>Nerve out, canal cleaned and sealed, post placed, temporary crown on top so she could leave looking normal. She went back to work that afternoon.</p>
+      <div class="line">root canal, post and temporary <span>— $260</span></div>
+    </div>
+  </section>
+
+  <section class="visit reveal">
+    <div class="visit-media">
+      <img class="toned" src="https://images.pexels.com/photos/5622257/pexels-photo-5622257.jpeg?auto=compress&cs=tinysrgb&w=800&h=1000&fit=crop"
+           width="800" height="1000" alt="Shade matching and fitting during the third visit" loading="lazy">
+    </div>
+    <div>
+      <div class="visit-num">visit 03 · 5 weeks later · 50 minutes</div>
+      <h2>Matching a tooth to the one next to it</h2>
+      <p>This is the visit that decides whether the work is invisible or obvious forever. Shade taken in daylight by the window, not under the clinic lamp — clinic light makes everything read a shade too bright.</p>
+      <p>Two crowns rather than one, because a single new crown next to a natural tooth almost never matches for long. That was in the original quote, not added later.</p>
+      <div class="line">two zirconia crowns, lab included <span>— $495</span></div>
+    </div>
+  </section>
+
+  <section class="visit reveal">
+    <div class="visit-media">
+      <img class="toned" src="https://images.pexels.com/photos/7422520/pexels-photo-7422520.jpeg?auto=compress&cs=tinysrgb&w=800&h=1000&fit=crop"
+           width="800" height="1000" alt="The final check at the last visit" loading="lazy">
+    </div>
+    <div>
+      <div class="visit-num">visit 04 · 4 weeks later · 20 minutes</div>
+      <h2>The check that most clinics skip</h2>
+      <p>Bite checked with the crowns settled in, gum line looked at, one small adjustment on the edge that was catching when she spoke. Twenty minutes, no charge — it is part of the job, not an extra visit.</p>
+      <p>She is booked for a cleaning in six months. Not upsold at the chair, just put in the diary.</p>
+      <div class="line">follow-up and adjustment <span>— included</span></div>
+    </div>
+  </section>
+
+  <!-- ================= RESULT ================= -->
+  <section class="result">
+    <div class="result-grid reveal">
+      <div class="shot">
+        <img src="https://images.pexels.com/photos/18392646/pexels-photo-18392646.jpeg?auto=compress&cs=tinysrgb&w=900&h=1125&fit=crop"
+             width="900" height="1125" alt="A close-up smile after the crowns were fitted" loading="lazy">
+        <span class="ba-badge">demo image</span>
+      </div>
+      <div>
+        <h2>Eleven weeks, and the number never moved.</h2>
+        <p>The quote written on the first visit was $780. The final invoice was $780. The crowns took longer to come back from the lab than we hoped, and that cost her two extra weeks — but it did not cost her money.</p>
+        <p>Photography on this page is stock, marked as a demo. Patient images are only published with written consent.</p>
+        <div class="total">
+          <span class="n">$780</span>
+          <span class="l">quoted at visit one, paid at visit four</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <h2 class="reveal">Bring us the thing you have been putting off.</h2>
+    <a href="index.html#book" class="btn reveal">book an appointment <span>→</span></a>
+  </section>
+
+  <footer>
+    <span>cusp — gemmayze, beirut</span>
+    <a href="https://www.novustudios.com" target="_blank" rel="noopener">Website by Novu Studios</a>
+  </footer>
+</div>
+
+<script>
+const ba = document.getElementById('ba'), baRange = document.getElementById('baRange');
+const setBA = v => ba.style.setProperty('--x', v + '%');
+baRange.addEventListener('input', e => setBA(e.target.value));
+setBA(baRange.value);
+
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (!reduced && 'IntersectionObserver' in window){
+  const io = new IntersectionObserver(es => {
+    es.forEach(en => { if (en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+  }, { threshold:.1, rootMargin:'0px 0px -50px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+} else {
+  document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+}
+</script>
+</body>
+</html>

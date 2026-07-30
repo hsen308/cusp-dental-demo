@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cusp — Dental Clinic, Beirut</title>
+<meta name="description" content="A dental clinic in Gemmayze, Beirut. Unhurried appointments, everything explained as it happens, and work built to last — with the cost agreed in writing before anything starts.">
+<meta name="theme-color" content="#F2EFE9">
+<meta property="og:title" content="Cusp — Dental Clinic, Beirut">
+<meta property="og:description" content="The dentist you stop dreading. See the whole first visit, minute by minute, before you book it.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23F2EFE9'/%3E%3Cpath d='M10 22c-1.5-3-2-6.5-1.5-9C9 10.5 11 9 13 9.6c1.5.5 2 1 3 1s1.5-.5 3-1c2-.6 4 .9 4.5 3.4.5 2.5 0 6-1.5 9-.9 1.8-2.2 1.2-2.7-.6-.4-1.5-.8-3.4-2.3-3.4s-1.9 1.9-2.3 3.4c-.5 1.8-1.8 2.4-2.7.6z' fill='none' stroke='%230E5A50' stroke-width='1.6'/%3E%3C/svg%3E">
+
+<!--
+  RESKIN NOTES (read before sending this to a lead):
+  1. Everything you need is in CONFIG at the top of the <script> below — clinic
+     name, city, address, WhatsApp number, accent colour, opening hours.
+  2. PRICES ARE PLACEHOLDERS. Confirm every number with the clinic before you
+     send it. A wrong price is worse than no price — see the PRICES array.
+  3. THE DENTIST IS FICTIONAL. "Dr. Rana Haddad" and the clinic copy in the
+     "the clinic" section are written for tone. Replace with the real person.
+  4. THE CASE PHOTOS ARE STOCK AND ARE BADGED "sample" ON PURPOSE. Do not pass
+     them off as the clinic's patients — fabricated before/afters are an
+     advertising liability for them and a dentist spots them instantly. Swap in
+     the clinic's own consented cases and delete the .ba-badge element.
+  5. IMAGE ORIENTATION MATTERS. Landscape slots (hero band, visit cards, clinic)
+     take landscape sources; the case frame takes portrait. A landscape photo in
+     a tall phone box gets cropped to a thin band and looks broken.
+  6. Opening hours drive the live "open now" strip using the VISITOR's local
+     clock. Fine for a Lebanese clinic seen by Lebanese leads.
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://images.pexels.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --porcelain: #F2EFE9;
+    --ink: #171310;
+    --pine: #0E5A50;
+    --coral: #C9563F;
+    --stone: #6E6A64;
+    --line: rgba(23,19,16,0.14);
+    --hairline: rgba(23,19,16,0.08);
+    --bg: var(--porcelain);
+    --ease: cubic-bezier(.22,.61,.36,1);
+    --pad: clamp(20px, 5vw, 64px);
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+  body{
+    background: var(--bg);
+    color: var(--ink);
+    font-family:'Inter Tight', system-ui, sans-serif;
+    overflow-x:hidden;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color .9s ease;
+  }
+  a{ color:inherit; text-decoration:none; }
+  img{ display:block; max-width:100%; }
+  ::selection{ background: var(--pine); color: var(--porcelain); }
+  :focus-visible{ outline: 2px solid var(--pine); outline-offset: 3px; }
+
+  .wrap{ max-width: 1360px; margin:0 auto; padding: 0 var(--pad); }
+  .mono{ font-family:'JetBrains Mono', monospace; letter-spacing:.03em; }
+  .serif{ font-family:'Instrument Serif', Georgia, serif; font-weight:400; }
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px; letter-spacing:.16em; text-transform:uppercase; color: var(--stone);
+  }
+  /* one filter unifies clinical-blue stock into the porcelain palette */
+  .toned{ filter: grayscale(.3) sepia(.1) contrast(1.05); }
+
+  /* ---------- NAV ---------- */
+  .nav{
+    position:sticky; top:0; z-index:60;
+    display:flex; justify-content:space-between; align-items:center; gap:16px;
+    padding: 18px var(--pad);
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom:1px solid var(--hairline);
+  }
+  .nav .word{ font-family:'Instrument Serif', serif; font-size:27px; letter-spacing:-.01em; }
+  .nav .word b{ color: var(--pine); font-weight:400; }
+  .nav-links{
+    display:flex; gap:22px;
+    font-family:'JetBrains Mono', monospace; font-size:11px;
+    letter-spacing:.1em; text-transform:uppercase; color: var(--stone);
+  }
+  .nav-links a{ padding:6px 0; }
+  .nav-links a:hover{ color: var(--pine); }
+  .nav .city{
+    font-family:'JetBrains Mono', monospace; font-size:11px;
+    letter-spacing:.1em; text-transform:uppercase; color: var(--stone);
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{ padding: clamp(48px,9vh,104px) 0 clamp(26px,4vh,40px); }
+  .hero h1{
+    font-family:'Instrument Serif', serif; font-weight:400;
+    font-size: clamp(37px, 7.6vw, 108px);
+    line-height:1.0; letter-spacing:-.02em; max-width: 15ch;
+    margin: 18px 0 0;
+  }
+  .hero h1 em{ font-style:italic; color: var(--pine); }
+  .hero-sub{
+    margin-top: 22px; max-width: 46ch;
+    font-size: clamp(15.5px, 1.5vw, 18px); line-height:1.6; color: var(--stone);
+  }
+  .hero-cta{ margin-top: 30px; display:flex; flex-wrap:wrap; gap:14px 26px; align-items:center; }
+  .btn{
+    display:inline-flex; align-items:center; gap:10px;
+    min-height:52px; padding: 15px 28px;
+    background: var(--pine); color: var(--porcelain);
+    font-family:'JetBrains Mono', monospace; font-size:11.5px;
+    letter-spacing:.1em; text-transform:uppercase;
+    border:none; cursor:pointer;
+    transition: transform .3s var(--ease), background .3s ease;
+  }
+  .btn:hover{ transform: translateY(-2px); background:#0b463e; }
+  .btn.is-urgent{ background: var(--coral); }
+  .btn.is-urgent:hover{ background:#ab4331; }
+  .btn-quiet{
+    display:inline-flex; align-items:center; gap:9px; min-height:44px;
+    font-family:'JetBrains Mono', monospace; font-size:11.5px;
+    letter-spacing:.1em; text-transform:uppercase; color: var(--ink);
+    border-bottom:1px solid var(--line); padding-bottom:4px;
+    transition: color .3s, border-color .3s;
+  }
+  .btn-quiet:hover{ color: var(--pine); border-color: var(--pine); }
+
+  .status{
+    margin-top: clamp(34px,5vh,52px); padding-top:16px;
+    border-top:1px solid var(--line);
+    display:flex; flex-wrap:wrap; gap:10px 26px; align-items:center;
+    font-family:'JetBrains Mono', monospace; font-size:11px;
+    letter-spacing:.08em; text-transform:uppercase; color: var(--stone);
+  }
+  .status .live{ display:inline-flex; align-items:center; gap:9px; color: var(--ink); }
+  .status .bulb{
+    width:7px; height:7px; border-radius:50%; background: var(--pine); flex:none;
+    box-shadow: 0 0 0 0 rgba(14,90,80,.5);
+  }
+  .status .bulb.shut{ background: var(--stone); animation:none; }
+  @keyframes pulse{ to{ box-shadow: 0 0 0 8px rgba(14,90,80,0); } }
+  .status .bulb:not(.shut){ animation: pulse 2.4s infinite; }
+
+  .hero-band{
+    margin-top: clamp(26px,4vh,44px);
+    aspect-ratio: 21/8; overflow:hidden; background: #e3e0da;
+  }
+  .hero-band picture{ display:contents; }
+  .hero-band img{ width:100%; height:100%; object-fit:cover; }
+
+  /* ---------- SECTION HEAD ---------- */
+  .head{
+    display:flex; justify-content:space-between; align-items:baseline; gap:18px; flex-wrap:wrap;
+    padding: clamp(64px,10vh,116px) 0 clamp(24px,3.5vh,38px);
+    border-top:1px solid var(--line);
+  }
+  .head h2{
+    font-family:'Instrument Serif', serif; font-weight:400;
+    font-size: clamp(28px, 4.4vw, 52px); letter-spacing:-.015em; line-height:1.05;
+  }
+  .head .note{
+    font-family:'JetBrains Mono', monospace; font-size:11px;
+    letter-spacing:.1em; text-transform:uppercase; color: var(--stone);
+    max-width: 30ch; text-align:right;
+  }
+
+  /* ---------- THE VISIT (signature) ---------- */
+  .visit-lede{ max-width: 52ch; color: var(--stone); font-size:16px; line-height:1.65; margin-bottom: 30px; }
+
+  /* native horizontal scroll: correct momentum on iOS, keyboard + trackpad for
+     free, and it can never swallow the page's vertical scroll */
+  .rail{
+    display:flex; gap:14px;
+    overflow-x:auto; overflow-y:hidden;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: var(--pad);
+    margin: 0 calc(-1 * var(--pad));
+    padding: 4px var(--pad) 26px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width:none;
+  }
+  .rail::-webkit-scrollbar{ display:none; }
+  .rail.is-dragging{ cursor:grabbing; scroll-snap-type:none; }
+  @media (pointer:fine){ .rail{ cursor:grab; } }
+
+  .moment{
+    flex:none; width: 320px; scroll-snap-align:start;
+    background: rgba(255,255,255,.5);
+    border:1px solid var(--hairline);
+    display:flex; flex-direction:column;
+    transition: border-color .4s ease, transform .4s var(--ease);
+  }
+  .moment:hover{ border-color: var(--line); transform: translateY(-3px); }
+  .moment .shot{ aspect-ratio: 4/3; overflow:hidden; background:#e3e0da; }
+  .moment .shot img{ width:100%; height:100%; object-fit:cover; }
+  /* bottom-aligned so cards with a photo and cards without still share a
+     baseline across the rail */
+  .moment .body{ padding: 20px 22px 24px; display:flex; flex-direction:column; justify-content:flex-end; gap:9px; flex:1; }
+  .moment .clock{
+    font-family:'JetBrains Mono', monospace; font-size:12px; font-weight:500;
+    letter-spacing:.08em; color: var(--pine);
+  }
+  .moment h3{ font-family:'Instrument Serif', serif; font-weight:400; font-size:25px; line-height:1.15; letter-spacing:-.01em; }
+  .moment p{ font-size:14.5px; line-height:1.6; color: var(--stone); }
+
+  /* the pivot card — the whole argument of the site */
+  .moment.pivot{ background: var(--pine); border-color: var(--pine); }
+  .moment.pivot .clock{ color: rgba(242,239,233,.7); }
+  .moment.pivot h3{ color: var(--porcelain); }
+  .moment.pivot p{ color: rgba(242,239,233,.82); }
+  .moment.pivot .slip{
+    margin-top:6px; padding:12px 14px; background: rgba(242,239,233,.1);
+    border:1px dashed rgba(242,239,233,.35);
+    font-family:'JetBrains Mono', monospace; font-size:11px; line-height:1.9;
+    color: rgba(242,239,233,.9); letter-spacing:.02em;
+  }
+  .moment.pivot .slip b{ float:right; font-weight:500; }
+
+  .rail-foot{ display:flex; justify-content:space-between; align-items:center; gap:16px; }
+  .phase{
+    display:flex; align-items:baseline; gap:12px;
+    font-family:'JetBrains Mono', monospace; font-size:11px;
+    letter-spacing:.12em; text-transform:uppercase; color: var(--stone);
+  }
+  .phase #phaseWord{ color: var(--pine); transition: color .6s ease; min-width:8ch; }
+  .rail-nav{ display:none; gap:8px; }
+  .rail-nav button{
+    width:44px; height:44px; border:1px solid var(--line); background:transparent;
+    color: var(--ink); cursor:pointer; font-size:15px; line-height:1;
+    transition: background .25s, color .25s, border-color .25s;
+  }
+  .rail-nav button:hover{ background: var(--pine); border-color: var(--pine); color: var(--porcelain); }
+  .rail-nav button[disabled]{ opacity:.3; cursor:default; }
+  .rail-nav button[disabled]:hover{ background:transparent; color:var(--ink); border-color:var(--line); }
+  @media (pointer:fine){ .rail-nav{ display:flex; } }
+  .track-line{ position:relative; height:1px; background: var(--line); margin-top:14px; }
+  .track-dot{
+    position:absolute; top:-2.5px; left:0; width:6px; height:6px; border-radius:50%;
+    background: var(--coral);
+  }
+
+  /* ---------- CASE FILES ---------- */
+  .case{
+    display:grid; grid-template-columns: minmax(0,1.2fr) minmax(0,1fr);
+    gap: clamp(26px,4.5vw,64px); align-items:center;
+    padding-bottom: clamp(40px,6vh,64px);
+  }
+  .ba{
+    position:relative; aspect-ratio: 3/2; overflow:hidden; background:#e3e0da;
+    --x: 50%;
+  }
+  .ba img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+  .ba .after{ clip-path: inset(0 0 0 var(--x)); }
+  .ba-line{
+    position:absolute; top:0; bottom:0; left: var(--x); width:2px;
+    background: var(--porcelain); pointer-events:none;
+    box-shadow: 0 0 14px rgba(23,19,16,.35);
+  }
+  .ba-grip{
+    position:absolute; top:50%; left: var(--x); transform: translate(-50%,-50%);
+    width:48px; height:48px; border-radius:50%; background: var(--porcelain);
+    display:grid; place-items:center; pointer-events:none;
+    font-family:'JetBrains Mono', monospace; font-size:13px; color: var(--ink);
+    box-shadow: 0 4px 18px rgba(23,19,16,.28);
+  }
+  /* a real range input: keyboard, screen readers and touch all work for free */
+  .ba-range{
+    position:absolute; inset:0; width:100%; height:100%;
+    margin:0; opacity:0; cursor:ew-resize;
+    -webkit-appearance:none; appearance:none; background:transparent;
+    touch-action: pan-y;   /* vertical swipes still scroll the page */
+  }
+  .ba-range::-webkit-slider-thumb{ -webkit-appearance:none; width:48px; height:100%; }
+  .ba-range::-moz-range-thumb{ width:48px; height:100%; border:none; opacity:0; }
+  .ba-tag{
+    position:absolute; bottom:12px; z-index:2;
+    font-family:'JetBrains Mono', monospace; font-size:10px;
+    letter-spacing:.14em; text-transform:uppercase;
+    padding:6px 10px; background: rgba(23,19,16,.62); color: var(--porcelain);
+    pointer-events:none;
+  }
+  .ba-tag.l{ left:12px; } .ba-tag.r{ right:12px; }
+  .ba-badge{
+    position:absolute; top:12px; left:12px; z-index:2;
+    font-family:'JetBrains Mono', monospace; font-size:10px;
+    letter-spacing:.14em; text-transform:uppercase;
+    padding:6px 10px; background: var(--coral); color: var(--porcelain);
+    pointer-events:none;
+  }
+  .case-num{ font-family:'JetBrains Mono', monospace; font-size:11.5px; letter-spacing:.1em; color: var(--coral); }
+  .case h3{
+    font-family:'Instrument Serif', serif; font-weight:400;
+    font-size: clamp(27px,3.6vw,42px); letter-spacing:-.015em; margin:10px 0 14px;
+  }
+  .case p{ color: var(--stone); font-size:15.5px; line-height:1.65; max-width:42ch; }
+  .facts{
+    margin: 24px 0 26px; display:grid; grid-template-columns: repeat(2, minmax(0,1fr));
+    gap:1px; background: var(--line); border:1px solid var(--line);
+  }
+  .facts div{ background: var(--bg); padding:14px 16px; }
+  .facts dt{
+    font-family:'JetBrains Mono', monospace; font-size:10px;
+    letter-spacing:.13em; text-transform:uppercase; color: var(--stone); margin-bottom:6px;
+  }
+  .facts dd{ font-family:'Instrument Serif', serif; font-size:23px; }
+
+  .index-row{
+    display:grid; grid-template-columns: auto 1fr auto; gap:16px 22px; align-items:baseline;
+    padding: 20px 0; border-top:1px solid var(--hairline);
+    font-size:15.5px;
+  }
+  .index-row .n{ font-family:'JetBrains Mono', monospace; font-size:11.5px; color: var(--coral); }
+  .index-row .m{ font-family:'JetBrains Mono', monospace; font-size:11.5px; color: var(--stone); text-align:right; letter-spacing:.05em; }
+  .sample-note{ margin-top:18px; color: var(--stone); font-size:13px; line-height:1.6; }
+
+  /* ---------- PRICES ---------- */
+  .prices{ max-width: 900px; }
+  .price-row{
+    display:flex; align-items:baseline; gap:14px;
+    padding: 15px 0; border-bottom:1px solid var(--hairline);
+  }
+  .price-row .n{ font-size:16.5px; flex:none; }
+  .price-row .lead{ flex:1; border-bottom:1px dotted var(--line); transform: translateY(-4px); }
+  .price-row .v{ font-family:'JetBrains Mono', monospace; font-size:14px; flex:none; letter-spacing:.02em; }
+  .price-foot{ margin-top:26px; color: var(--stone); font-size:15px; line-height:1.7; max-width:56ch; }
+  .price-foot b{ color: var(--ink); font-weight:500; }
+
+  /* ---------- CLINIC ---------- */
+  .clinic{
+    display:grid; grid-template-columns: 1fr 1.2fr; gap: clamp(28px,5vw,72px);
+    padding: clamp(64px,10vh,116px) 0; border-top:1px solid var(--line); align-items:start;
+  }
+  .clinic-media{ aspect-ratio: 3/2; overflow:hidden; background:#e3e0da; }
+  .clinic-media picture{ display:contents; }
+  .clinic-media img{ width:100%; height:100%; object-fit:cover; }
+  .clinic-text p{
+    font-family:'Instrument Serif', serif; font-size: clamp(19px,2.2vw,27px);
+    line-height:1.45; max-width:34ch;
+  }
+  .clinic-text p + p{ margin-top:18px; }
+  .clinic-text .eyebrow{ display:block; margin-bottom:16px; }
+  .stats{ display:flex; flex-wrap:wrap; gap: clamp(24px,4vw,48px); margin-top:40px; }
+  .stat .n{ font-family:'Instrument Serif', serif; font-size:34px; line-height:1; color: var(--pine); }
+  .stat .l{ margin-top:8px; max-width:17ch; }
+
+  /* ---------- BOOKING ---------- */
+  .booking{ padding: clamp(64px,10vh,110px) 0 clamp(36px,5vh,56px); border-top:1px solid var(--line); }
+  .booking-head{ max-width:46ch; margin-bottom: clamp(32px,4.5vh,48px); }
+  .booking-head h2{
+    font-family:'Instrument Serif', serif; font-weight:400;
+    font-size: clamp(28px,4.4vw,52px); letter-spacing:-.02em; margin-top:12px; line-height:1.05;
+  }
+  .booking-head p{ margin-top:16px; color: var(--stone); font-size:15.5px; line-height:1.65; }
+  form.book{ display:grid; grid-template-columns:1fr 1fr; gap: 26px 34px; max-width: 860px; }
+  .field{ display:flex; flex-direction:column; gap:8px; }
+  .field.full{ grid-column: 1 / -1; }
+  .field label{
+    font-family:'JetBrains Mono', monospace; font-size:10.5px;
+    letter-spacing:.11em; text-transform:uppercase; color: var(--stone);
+  }
+  .field input, .field select, .field textarea{
+    background:transparent; border:none; border-bottom:1px solid var(--line);
+    color: var(--ink); font-family:'Inter Tight', sans-serif; font-size:16.5px;
+    padding: 11px 2px; min-height:46px; transition: border-color .3s ease;
+  }
+  .field input::placeholder, .field textarea::placeholder{ color: rgba(23,19,16,.32); }
+  .field input:focus, .field select:focus, .field textarea:focus{ border-color: var(--pine); outline:none; }
+  .field textarea{ resize:none; min-height:62px; }
+
+  .pain{
+    grid-column:1 / -1; display:flex; gap:13px; align-items:flex-start;
+    padding:16px 18px; border:1px solid var(--line); cursor:pointer;
+    transition: border-color .3s, background .3s;
+  }
+  .pain:has(input:checked){ border-color: var(--coral); background: rgba(201,86,63,.06); }
+  .pain input{ width:20px; height:20px; margin-top:2px; accent-color: var(--coral); flex:none; }
+  .pain .t{ font-size:15.5px; line-height:1.5; }
+  .pain .t span{ display:block; margin-top:4px; font-size:13.5px; color: var(--stone); }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    padding: 34px 0 40px; border-top:1px solid var(--line);
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;
+    font-family:'JetBrains Mono', monospace; font-size:10.5px;
+    letter-spacing:.06em; color: var(--stone);
+  }
+  footer a{ border-bottom:1px solid var(--line); padding-bottom:2px; transition: color .3s, border-color .3s; }
+  footer a:hover{ color: var(--pine); border-color: var(--pine); }
+
+  .reveal{ opacity:0; transform: translateY(22px); transition: opacity .85s var(--ease), transform .85s var(--ease); }
+  .reveal.in{ opacity:1; transform:none; }
+
+  .sr{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 1000px){
+    .clinic{ grid-template-columns:1fr; gap:30px; }
+    .clinic-text p{ max-width:none; }
+    .case{ grid-template-columns:1fr; gap:26px; }
+    .case p{ max-width:none; }
+  }
+  @media (max-width: 720px){
+    .nav-links{ gap:16px; }
+    .nav .city{ display:none; }
+    .hero-band{ aspect-ratio: 4/5; }
+    .head{ padding-top: clamp(52px,8vh,80px); }
+    .head .note{ text-align:left; max-width:38ch; }
+    .clinic-media{ aspect-ratio: 4/5; }
+    form.book{ grid-template-columns:1fr; gap:24px; }
+    .facts{ grid-template-columns:1fr 1fr; }
+    .moment{ width: 78vw; max-width: 330px; }
+    footer{ justify-content:flex-start; }
+  }
+  @media (max-width: 520px){
+    .nav .word{ font-size:23px; }
+    .nav-links{ font-size:10px; letter-spacing:.06em; }
+    .price-row{ flex-wrap:wrap; gap:4px 10px; }
+    .price-row .lead{ display:none; }
+    .price-row .n{ flex:1 1 100%; }
+    .price-row .v{ color: var(--pine); }
+    .index-row{ grid-template-columns: auto 1fr; }
+    .index-row .m{ grid-column:2; text-align:left; }
+    .stat .n{ font-size:29px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    *, *::before, *::after{ animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; }
+    .reveal{ opacity:1; transform:none; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="#top" class="word" id="brandWord">cusp<b>.</b></a>
+  <div class="nav-links">
+    <a href="#visit">the visit</a>
+    <a href="#cases">cases</a>
+    <a href="#prices">prices</a>
+    <a href="#book">book</a>
+  </div>
+  <div class="city" id="navCity">gemmayze, beirut</div>
+</nav>
+
+<div class="wrap" id="top">
+
+  <!-- ================= HERO ================= -->
+  <header class="hero">
+    <span class="eyebrow" id="heroEyebrow">dental clinic · gemmayze, beirut</span>
+    <h1>The dentist you stop <em>dreading</em>.</h1>
+    <p class="hero-sub">An unhurried room, everything explained while it happens, and work built to still look right in ten years — not just on the day you walk out. You'll know what it costs before anything starts, too.</p>
+    <div class="hero-cta">
+      <a href="#book" class="btn">book on whatsapp <span>→</span></a>
+      <a href="#visit" class="btn-quiet">see what a visit actually looks like <span>↓</span></a>
+    </div>
+    <div class="status">
+      <span class="live"><span class="bulb" id="statusBulb"></span><span id="statusText">checking hours…</span></span>
+      <span id="emergencyLine">two slots kept open every day for pain</span>
+    </div>
+  </header>
+
+  <div class="hero-band">
+    <picture>
+      <source media="(max-width: 720px)" srcset="https://images.pexels.com/photos/6812461/pexels-photo-6812461.jpeg?auto=compress&cs=tinysrgb&w=800&h=1000&fit=crop">
+      <img class="toned" src="https://images.pexels.com/photos/6812453/pexels-photo-6812453.jpeg?auto=compress&cs=tinysrgb&w=1800&h=686&fit=crop"
+           width="1800" height="686" alt="The treatment room at Cusp, empty and set up before the first appointment of the day" fetchpriority="high">
+    </picture>
+  </div>
+
+  <!-- ================= THE VISIT ================= -->
+  <section id="visit">
+    <div class="head reveal">
+      <h2>Thirty-eight minutes,<br>start to finish.</h2>
+      <div class="note">the whole first visit — drag through it →</div>
+    </div>
+    <p class="visit-lede reveal">Most people put off the dentist for years over two things: not knowing how much it will hurt, and not knowing what it will cost until they are already in the chair. So here is the entire first appointment, minute by minute, before you book it.</p>
+
+    <div class="rail" id="rail" tabindex="0" role="group" aria-label="A first visit, minute by minute. Scroll horizontally or use the arrow keys."></div>
+
+    <div class="rail-foot">
+      <div class="phase">
+        <span id="phaseWord">nervous</span>
+        <span id="phaseCount" class="mono">01 / 09</span>
+      </div>
+      <div class="rail-nav">
+        <button type="button" id="railPrev" aria-label="Previous moment">←</button>
+        <button type="button" id="railNext" aria-label="Next moment">→</button>
+      </div>
+    </div>
+    <div class="track-line"><div class="track-dot" id="trackDot"></div></div>
+  </section>
+
+  <!-- ================= CASE FILES ================= -->
+  <section id="cases">
+    <div class="head reveal">
+      <h2>Case files</h2>
+      <div class="note">what came in, what was done, how it held up</div>
+    </div>
+
+    <article class="case reveal">
+      <!-- SWAP FOR THE CLINIC'S OWN CASE: replace the two <img src> values with a
+           real before/after pair and change the two .ba-tag labels. The component
+           does not care which pair it holds. -->
+      <div class="ba" id="ba">
+        <img class="before" src="https://images.pexels.com/photos/12474261/pexels-photo-12474261.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop"
+             width="1200" height="800" alt="Close-up photograph of the teeth as they look in the mirror" loading="lazy">
+        <img class="after" src="https://images.pexels.com/photos/6502033/pexels-photo-6502033.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop"
+             width="1200" height="800" alt="The panoramic X-ray of the same jaw, showing what sits under the gum" loading="lazy">
+        <div class="ba-line"></div>
+        <div class="ba-grip">↔</div>
+        <span class="ba-badge">demo images</span>
+        <span class="ba-tag l">what you see</span>
+        <span class="ba-tag r">what we see</span>
+        <input type="range" class="ba-range" id="baRange" min="0" max="100" value="50" step="1" aria-label="Drag to compare the photograph with the X-ray">
+      </div>
+      <div>
+        <div class="case-num">case 01</div>
+        <h3>A front tooth that broke on a date pit.</h3>
+        <p>Drag the handle. On the left is what she saw in the mirror; on the right is what the X-ray showed underneath. The visible chip was the small part — the fracture ran below the gum line, which is why the fix was never going to be a filling. Three years on, the two crowns still match the tooth beside them in daylight — which is the only test that actually matters.</p>
+        <dl class="facts">
+          <div><dt>treatment</dt><dd>Root canal, post, two zirconia crowns</dd></div>
+          <div><dt>visits</dt><dd>4</dd></div>
+          <div><dt>start to finish</dt><dd>11 weeks</dd></div>
+          <div><dt>final cost</dt><dd>$780</dd></div>
+        </dl>
+        <a href="case.html" class="btn-quiet">read the four visits <span>→</span></a>
+      </div>
+    </article>
+
+    <div class="reveal">
+      <div class="index-row">
+        <span class="n">02</span>
+        <span>Full-arch implant bridge, lower jaw. Came in unable to eat on the left side.</span>
+        <span class="m">7 visits · 9 months · $6,400</span>
+      </div>
+      <div class="index-row">
+        <span class="n">03</span>
+        <span>Clear aligners for mild crowding. Wanted it done before a wedding.</span>
+        <span class="m">6 visits · 14 months · $1,900</span>
+      </div>
+      <p class="sample-note">The two images above are stock, marked as a demo. Patient photographs are only published here with written consent.</p>
+    </div>
+  </section>
+
+  <!-- ================= PRICES ================= -->
+  <section id="prices">
+    <div class="head reveal">
+      <h2>What it costs</h2>
+      <div class="note">published, so you don't have to ask</div>
+    </div>
+    <div class="prices reveal" id="priceList"></div>
+    <p class="price-foot reveal"><b>These are ranges, not quotes.</b> What you actually pay depends on what we find, and you get that exact number in writing at the first visit — before anything starts. If a treatment turns out to need more than we quoted, the difference is ours, not yours.</p>
+  </section>
+
+  <!-- ================= THE CLINIC ================= -->
+  <section class="clinic" id="clinic">
+    <div class="clinic-media reveal">
+      <picture>
+        <source media="(max-width: 720px)" srcset="https://images.pexels.com/photos/37458081/pexels-photo-37458081.jpeg?auto=compress&cs=tinysrgb&w=800&h=1000&fit=crop">
+        <img class="toned" src="https://images.pexels.com/photos/6812521/pexels-photo-6812521.jpeg?auto=compress&cs=tinysrgb&w=1100&h=733&fit=crop"
+             width="1100" height="733" alt="The dentist and hygienist at work in the treatment room" loading="lazy">
+      </picture>
+    </div>
+    <div class="clinic-text reveal">
+      <span class="eyebrow">the clinic</span>
+      <p>Cusp is one dentist, one hygienist and one chair. You see the same face every visit — there is no rotating list of associates and no one you have never met finishing work someone else started.</p>
+      <p>Instruments come out of a sealed pouch in front of you, and the pouch has the sterilisation date printed on it. Ask to see it. Everyone should.</p>
+      <div class="stats">
+        <div class="stat"><div class="n">2014</div><div class="l eyebrow">practising in beirut since</div></div>
+        <div class="stat"><div class="n">2</div><div class="l eyebrow">emergency slots kept open daily</div></div>
+        <div class="stat"><div class="n">48h</div><div class="l eyebrow">typical wait for a routine appointment</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= BOOKING ================= -->
+  <section class="booking" id="book">
+    <div class="booking-head reveal">
+      <span class="eyebrow">book an appointment</span>
+      <h2>Tell us what's wrong. We'll tell you when we can see you.</h2>
+      <p>This opens WhatsApp with your details already written out — you just press send. If you're in pain today, tick the box and it goes to the front of the queue.</p>
+    </div>
+
+    <form class="book reveal" id="bookForm">
+      <div class="field">
+        <label for="f-name">Your name</label>
+        <input type="text" id="f-name" name="name" placeholder="First name is enough" required>
+      </div>
+      <div class="field">
+        <label for="f-type">What do you need</label>
+        <select id="f-type" name="type" required>
+          <option value="" disabled selected>Select one</option>
+          <option>First visit — exam and plan</option>
+          <option>Cleaning</option>
+          <option>A tooth that hurts</option>
+          <option>Filling or a broken tooth</option>
+          <option>Root canal</option>
+          <option>Crown, bridge or implant</option>
+          <option>Whitening</option>
+          <option>Braces or aligners</option>
+          <option>Not sure — I want it looked at</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="f-day">Preferred day</label>
+        <input type="date" id="f-day" name="day">
+      </div>
+      <div class="field">
+        <label for="f-time">Preferred time</label>
+        <select id="f-time" name="time">
+          <option value="" disabled selected>Any time</option>
+          <option>Morning</option>
+          <option>Afternoon</option>
+          <option>After 17:00</option>
+        </select>
+      </div>
+      <div class="field full">
+        <label for="f-notes">Anything we should know</label>
+        <textarea id="f-notes" name="notes" placeholder="How long it's been going on, if you're nervous, if you've had work done elsewhere"></textarea>
+      </div>
+
+      <label class="pain" for="f-pain">
+        <input type="checkbox" id="f-pain" name="pain">
+        <span class="t">I'm in pain today
+          <span>We keep two slots free every day for this. Ticking it marks your message urgent.</span>
+        </span>
+      </label>
+
+      <button type="submit" class="btn" id="bookBtn" style="grid-column:1/-1; justify-self:start;">send on whatsapp <span>→</span></button>
+    </form>
+  </section>
+
+  <footer>
+    <span id="footLine">cusp — gemmayze, beirut</span>
+    <a href="https://www.novustudios.com" target="_blank" rel="noopener">Website by Novu Studios</a>
+  </footer>
+</div>
+
+<script type="application/ld+json" id="ldJson"></script>
+<script>
+/* ============================================================
+   CONFIG — edit this block per client. Nothing else needs to change.
+   ============================================================ */
+const CONFIG = {
+  clinicName: 'Cusp',
+  city: 'Beirut',
+  area: 'Gemmayze',
+  street: 'Rue Gouraud',
+  whatsappNumber: '96170786131',   // digits only, country code first — REPLACE
+  accent: '#0E5A50',
+  currency: '$',
+  // 0 = Sunday. null = closed. Times are 24h, visitor's local clock.
+  hours: {
+    1: ['09:00','18:00'], 2: ['09:00','18:00'], 3: ['09:00','18:00'],
+    4: ['09:00','18:00'], 5: ['09:00','18:00'], 6: ['09:00','14:00'], 0: null,
+  },
+};
+
+const PRICES = [
+  ['First visit — exam, X-ray and written plan', '25'],
+  ['Cleaning — scaling and polish',              '50 – 70'],
+  ['Composite filling',                          '45 – 80'],
+  ['Root canal — per canal',                     '120 – 220'],
+  ['Crown — zirconia',                           '250 – 400'],
+  ['Implant — fixture and crown',                '700 – 1,100'],
+  ['Whitening — one in-clinic session',          '180 – 250'],
+  ['Aligners — full case',                       '1,400 – 2,600'],
+];
+
+/* The first visit, minute by minute. `pivot` marks the card the whole
+   site is built around. `img` is a landscape Pexels id — the card slot
+   is 4:3, so never put a portrait source here. */
+const MOMENTS = [
+  { t:'00:00', h:'You arrive',
+    p:'No sliding glass window, no clipboard of forms. Someone tells you how long the wait is, and it is the real number.',
+    img: 305567 },
+  { t:'00:03', h:'You sit down',
+    p:'Chair upright, nothing in your mouth yet. We ask what has been bothering you and how long it has been going on.' },
+  { t:'00:06', h:'We look',
+    p:'Mirror and light first, about two minutes. Then an X-ray only if there is a reason for one — and we tell you the reason.',
+    img: 6627353 },
+  { t:'00:09', h:'You see what we see',
+    p:'The scan goes on the screen next to you and we point at the actual problem. Not a diagram of someone else\'s teeth.',
+    img: 6627320 },
+  { t:'00:11', h:'The number', pivot:true,
+    p:'Before anything starts: what needs doing, what can wait, and what each part costs. Written down and handed to you.' },
+  { t:'00:14', h:'You decide',
+    p:'Including deciding not to. Nobody sells you a crown from the chair. "I want to think about it" is a normal answer here.' },
+  { t:'00:20', h:'The part you were dreading',
+    p:'The anaesthetic goes in slowly — that is most of the reason it hurts when it hurts. You raise a hand, we stop. Every time.',
+    img: 3952017 },
+  { t:'00:36', h:'Done',
+    p:'We tell you what we did, what tonight will feel like, and what to do if it does not settle. Our number, not a hotline.' },
+  { t:'00:38', h:'You leave with the plan',
+    p:'One page: what is finished, what is next, what it costs, when to come back. Same numbers you were quoted at 00:11.',
+    img: 4270379 },
+];
+
+/* Four phases the page walks through as you scroll the visit. Cool and
+   clinical at the start, warm porcelain by the end. All four keep the ink
+   text above 12:1 contrast. */
+const PHASES = ['nervous','seated','known','done'];
+const PHASE_BG = { nervous:'#E4E7EA', seated:'#EAE9E5', known:'#F0EDE6', done:'#F5EFE3' };
+
+/* ============================================================
+   APPLY CONFIG
+   ============================================================ */
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const place = `${CONFIG.area}, ${CONFIG.city}`;
+document.documentElement.style.setProperty('--pine', CONFIG.accent);
+document.getElementById('brandWord').innerHTML = CONFIG.clinicName.toLowerCase() + '<b>.</b>';
+document.getElementById('navCity').textContent = place.toLowerCase();
+document.getElementById('heroEyebrow').textContent = `dental clinic · ${place.toLowerCase()}`;
+document.getElementById('footLine').textContent = `${CONFIG.clinicName.toLowerCase()} — ${place.toLowerCase()}`;
+document.title = `${CONFIG.clinicName} — Dental Clinic, ${CONFIG.city}`;
+
+const px = id => `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&w=760&h=570&fit=crop`;
+
+/* ============================================================
+   OPEN / CLOSED — a small live signal that the place is real
+   ============================================================ */
+(function status(){
+  const DAYS = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
+  const now = new Date();
+  const mins = now.getHours() * 60 + now.getMinutes();
+  const toMin = s => (+s.slice(0,2)) * 60 + (+s.slice(3));
+  const today = CONFIG.hours[now.getDay()];
+  const bulb = document.getElementById('statusBulb');
+  const text = document.getElementById('statusText');
+
+  if (today && mins >= toMin(today[0]) && mins < toMin(today[1])) {
+    text.textContent = `open now · closes ${today[1]}`;
+    return;
+  }
+  bulb.classList.add('shut');
+  if (today && mins < toMin(today[0])) { text.textContent = `closed · opens today at ${today[0]}`; return; }
+  for (let i = 1; i <= 7; i++) {
+    const d = (now.getDay() + i) % 7, h = CONFIG.hours[d];
+    if (h) { text.textContent = `closed · opens ${i === 1 ? 'tomorrow' : DAYS[d]} at ${h[0]}`; return; }
+  }
+  text.textContent = 'closed';
+})();
+
+/* ============================================================
+   PRICE LIST
+   ============================================================ */
+document.getElementById('priceList').innerHTML = PRICES.map(([name, val]) =>
+  `<div class="price-row"><span class="n">${name}</span><span class="lead"></span><span class="v">${CONFIG.currency}${val}</span></div>`
+).join('');
+
+/* ============================================================
+   THE VISIT — native horizontal scroll drives the page background.
+   Native scroll (not a custom pointer drag) is deliberate: it gives real
+   iOS momentum, keyboard access and trackpad support, and it can never
+   swallow the page's vertical scroll on a phone.
+   ============================================================ */
+const rail = document.getElementById('rail');
+rail.innerHTML = MOMENTS.map((m, i) => `
+  <article class="moment${m.pivot ? ' pivot' : ''}">
+    ${m.img ? `<div class="shot"><img class="toned" src="${px(m.img)}" width="760" height="570" loading="lazy" alt="${m.h}, during a first appointment"></div>` : ''}
+    <div class="body">
+      <span class="clock">${m.t}</span>
+      <h3>${m.h}</h3>
+      <p>${m.p}</p>
+      ${m.pivot ? `<div class="slip">
+        two fillings <b>${CONFIG.currency}130</b><br>
+        one crown <b>${CONFIG.currency}300</b><br>
+        cleaning <b>${CONFIG.currency}60</b><br>
+        the wisdom tooth <b>can wait</b>
+      </div>` : ''}
+    </div>
+  </article>`).join('');
+
+const phaseWord = document.getElementById('phaseWord');
+const phaseCount = document.getElementById('phaseCount');
+const trackDot = document.getElementById('trackDot');
+const trackLine = trackDot.parentElement;
+const clamp = (v,a,b) => Math.max(a, Math.min(b, v));
+
+function hexLerp(a, b, t){
+  const pa = [1,3,5].map(i => parseInt(a.slice(i,i+2),16));
+  const pb = [1,3,5].map(i => parseInt(b.slice(i,i+2),16));
+  return '#' + pa.map((c,i) => Math.round(c + (pb[i]-c)*t).toString(16).padStart(2,'0')).join('');
+}
+
+/* the page only starts breathing with the rail once the section is actually
+   on screen — otherwise the hero loads in the cold "nervous" grey */
+let bgLive = false, ticking = false;
+function paint(){
+  ticking = false;
+  const max = rail.scrollWidth - rail.clientWidth;
+  const progress = max <= 0 ? 0 : clamp(rail.scrollLeft / max, 0, 1);
+
+  const seg = progress * (PHASES.length - 1);
+  const i = clamp(Math.floor(seg), 0, PHASES.length - 2);
+  const t = seg - i;
+  // drive the custom property, not body.style — the nav's translucent fill is
+  // mixed from --bg and has to travel with it
+  if (bgLive) document.documentElement.style.setProperty('--bg', hexLerp(PHASE_BG[PHASES[i]], PHASE_BG[PHASES[i+1]], t));
+  phaseWord.textContent = t < 0.5 ? PHASES[i] : PHASES[i+1];
+
+  const n = clamp(Math.round(progress * (MOMENTS.length - 1)) + 1, 1, MOMENTS.length);
+  phaseCount.textContent = `${String(n).padStart(2,'0')} / ${String(MOMENTS.length).padStart(2,'0')}`;
+  trackDot.style.transform = `translateX(${progress * (trackLine.clientWidth - 6)}px)`;
+
+  document.getElementById('railPrev').disabled = progress <= 0.001;
+  document.getElementById('railNext').disabled = progress >= 0.999;
+}
+rail.addEventListener('scroll', () => { if (!ticking){ ticking = true; requestAnimationFrame(paint); } }, { passive:true });
+addEventListener('resize', paint);
+
+const step = () => rail.querySelector('.moment').offsetWidth + 14;
+document.getElementById('railNext').addEventListener('click', () => rail.scrollBy({ left: step(), behavior: reduced ? 'auto' : 'smooth' }));
+document.getElementById('railPrev').addEventListener('click', () => rail.scrollBy({ left: -step(), behavior: reduced ? 'auto' : 'smooth' }));
+
+/* grab-to-drag, mouse only. On touch the browser already does this better,
+   and hijacking it there is how you break vertical scrolling. */
+if (matchMedia('(pointer:fine)').matches){
+  let down = false, sx = 0, sl = 0, moved = false;
+  rail.addEventListener('pointerdown', e => {
+    if (e.button !== 0) return;
+    down = true; moved = false; sx = e.clientX; sl = rail.scrollLeft;
+  });
+  addEventListener('pointermove', e => {
+    if (!down) return;
+    const dx = e.clientX - sx;
+    if (!moved && Math.abs(dx) < 5) return;
+    if (!moved){ moved = true; rail.classList.add('is-dragging'); }
+    rail.scrollLeft = sl - dx;
+  });
+  addEventListener('pointerup', () => { down = false; rail.classList.remove('is-dragging'); });
+}
+
+if ('IntersectionObserver' in window){
+  new IntersectionObserver((es, obs) => {
+    if (es[0].isIntersecting){ bgLive = true; paint(); obs.disconnect(); }
+  }, { threshold: 0.25 }).observe(document.getElementById('visit'));
+} else { bgLive = true; }
+paint();
+
+/* ============================================================
+   BEFORE / AFTER — the range input is the real control; the line and
+   grip just follow it. Keyboard and screen readers work by default.
+   ============================================================ */
+const ba = document.getElementById('ba'), baRange = document.getElementById('baRange');
+const setBA = v => ba.style.setProperty('--x', v + '%');
+baRange.addEventListener('input', e => setBA(e.target.value));
+setBA(baRange.value);
+
+/* ============================================================
+   REVEAL
+   ============================================================ */
+if (!reduced && 'IntersectionObserver' in window){
+  const io = new IntersectionObserver((es) => {
+    es.forEach(en => { if (en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+} else {
+  document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+}
+
+/* ============================================================
+   BOOKING → WHATSAPP
+   ============================================================ */
+const bookBtn = document.getElementById('bookBtn');
+const painBox = document.getElementById('f-pain');
+painBox.addEventListener('change', () => {
+  bookBtn.classList.toggle('is-urgent', painBox.checked);
+  bookBtn.innerHTML = painBox.checked ? 'send urgent request <span>→</span>' : 'send on whatsapp <span>→</span>';
+});
+
+document.getElementById('bookForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  const d = new FormData(this);
+  // an ISO date reads like a database row in a WhatsApp message
+  const day = d.get('day')
+    ? new Date(d.get('day') + 'T00:00').toLocaleDateString('en-GB', { weekday:'short', day:'numeric', month:'short' })
+    : '';
+  const when = [day, d.get('time')].filter(Boolean).join(', ') || 'whenever you have space';
+  let msg = painBox.checked ? `Hi ${CONFIG.clinicName} — I'm in pain today. ` : `Hi ${CONFIG.clinicName} — `;
+  msg += `I'm ${d.get('name')}, I'd like to come in for: ${d.get('type')}. Preferred time: ${when}.`;
+  const notes = d.get('notes');
+  if (notes) msg += ` ${notes}`;
+  window.open(`https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener');
+});
+
+/* ============================================================
+   LOCAL SEO — built from CONFIG so a reskin never leaves stale schema
+   ============================================================ */
+document.getElementById('ldJson').textContent = JSON.stringify({
+  '@context':'https://schema.org', '@type':'Dentist',
+  name: CONFIG.clinicName,
+  address: { '@type':'PostalAddress', streetAddress: CONFIG.street, addressLocality: CONFIG.area, addressRegion: CONFIG.city, addressCountry:'LB' },
+  telephone: '+' + CONFIG.whatsappNumber,
+  priceRange: '$$',
+  openingHoursSpecification: Object.entries(CONFIG.hours).filter(([,h]) => h).map(([d,h]) => ({
+    '@type':'OpeningHoursSpecification',
+    dayOfWeek: ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][d],
+    opens: h[0], closes: h[1],
+  })),
+});
+</script>
+</body>
+</html>
